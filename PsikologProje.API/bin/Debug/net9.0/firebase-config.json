@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "addictiontracker-aba95",
+  "private_key_id": "7793224c7b1746ea40f5fed07eb1c259ae7d6b2d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDt0C18X6Flxdkn\nkUmwWwkCl8YpH6C3ocwTEMKIEJTpjBlj/Hmk9GFYruSQGQ9b5CL2img81B8Kw/jJ\n1p3plLE3mG8v7ryeO3Oc97bFp8Q11zSTZbKL69vPpEQkoNaZiA3gLNzrZbegyyjI\ndiqvH7IglAovQpxTj8AifGZzr9qfoI5PwdOv52IEbv8/swqGO/+U6/iW9bYUSvmZ\n5kVa4ROwJjvbTP8WOeHu5SmaLSUAwxRaHkoFFqgbsm9NW7fFjADZ08YWUUaYSmjc\n/+T8rpIETvgQXLroezknidZzg6DuR2Cb+I9GfR/SQc3t4Mst3n7Z0p1e90TVau/E\nvXNOkOstAgMBAAECggEAU63ne3aY75tFFIeqgrwduQRXzXucDVGI4gKJOOCAzYcn\nHggmc5UsNczgjxXKUj690LuV/yVywNKBVeBHU3wnOZVRNnAOfa0UutxtOzKTt5BA\np0bnIxX8lB1Mfwj7Si3WGBYhLFFv4kvqT1NJJLMF9jGxPbz2De8sn9XfJQDxcC4c\niWzvrmU/tCboxY7augZrECtH0D2S6OasQ1r3tY0fSm/k0hu99N1vDn7voiJLyUZa\nuWD5xDrMMQshPiNmmvoR9sA4LpxKNgUDVabAQXoea8/XzAMIotfuMui5tXNutYJI\nRUIGRGb4thlmgFHkVGXnxhHAnUsrjDvK024D8AjHTwKBgQD7RAcvD/BFYunz0wat\nLQkq6/5Fu7O33xeTmOC5/k4CdHfTqTCCZFSMGmAvnX6WjRuWVL9inHNA9RTIHajZ\nVz3jzY6qU+SDm1Anay7zPli6fE6d0DMOwbJJlLwHBtb73DEMAksUBvmGR3JTWEjR\naAMm+4m26WMgWJ2mJRj7Q9bbuwKBgQDyS0MA/pqknG20g2g/9v1pHDMtCVLXzxXM\n/WUAz/2GO+J1NNSUADGt6HrDDq7sdjeTP987iu9R0Oe6ei+3WERpYcq0/HOJEGb4\nvaRoPbfC8HHEX96qU6OB7xQHoMsJyB0/vZqA6/D6nb4MfbA2q8hvmPOkBgCoqliz\np5IMQmzCNwKBgQDAHo3XoDo4856qvgn2096UoQk0zIZn6v6d7mC2FgoTunX8svrS\nWGCFF43AGo42EwKq+XW0sqc1Xa9cK8F1HU3HJt8UwTySnGi3Gy808dDqFi4OYKkJ\neXUW6dCzFrm+regapI4/a+3SjEKQE4rqAruWTPJJlz4h91/jL65gQMjCDQKBgA4m\nDPSa6YbhR5q57bWGg8fGiMqBd9/4TMqapXJFswVKq++yNROrazs/jyOi0N4oDRjB\nKxT8CPubGl0OU4j+U4hf2Il3EHwZhBnUYSxhJkDw74PLIWKK3cpxnpbPcevRTrvx\nI3uRy5Gm8nkiQc7/ewXhRaD3ZMR0phdfmqyymE1DAoGBAMYXG9zt/Xza7PTHm/MY\n4DjDeG9z8LTU3TxmzlKqE+C9xUFttE5n+AzGqZtHBQ9p5J9MLhTzVTr7RkOZtYE1\n4F8HbXcvu3cxii+UF0B3ZrLHTal/TeBpfYA6oJ9W4ufmw/wpvxdGEKSDLWH+mc2J\nkCy+G3woUJI4Y4HcEpo8YK8R\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-fbsvc@addictiontracker-aba95.iam.gserviceaccount.com",
+  "client_id": "116382562825319738898",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40addictiontracker-aba95.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
