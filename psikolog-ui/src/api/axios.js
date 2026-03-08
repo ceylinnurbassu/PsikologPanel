@@ -1,9 +1,17 @@
 import axios from 'axios';
+import { auth } from '../firebase';
 
 const api = axios.create({
-  // Backend terminalinde (dotnet run sonrası) yazan localhost adresini buraya yaz
-  // Genelde 5214 veya 5000 olur.
-  baseURL: 'http://localhost:5214', 
+  baseURL: 'http://localhost:5214',
+});
+
+api.interceptors.request.use(async (config) => {
+  const user = auth.currentUser;
+  if (user) {
+    const token = await user.getIdToken();
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 export default api;

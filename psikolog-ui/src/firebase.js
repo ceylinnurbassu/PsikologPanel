@@ -18,5 +18,10 @@ const app = initializeApp(firebaseConfig);
 
 // Servisleri dışa aktar (Export et)
 export const auth = getAuth(app);
+// 🔥 SADECE DEVELOPMENT İÇİN
+if (import.meta.env.DEV) {
+  window.auth = auth;
+}
+
 export const analytics = getAnalytics(app);
 export default app;
