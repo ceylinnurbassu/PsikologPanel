@@ -53,11 +53,11 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Content Include="firebase-config.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
-  </ItemGroup>
+  </ItemGroup> -->
 
 </Project>

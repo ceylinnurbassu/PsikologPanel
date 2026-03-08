@@ -13,38 +13,55 @@ var builder = WebApplication.CreateBuilder(args);
 // 🔹 Firebase Project ID
 var projectId = "addictiontracker-aba95";
 
-// 🔹 Firebase Admin SDK (Auth için)
+// 🔹 Firebase Admin SDK
 if (FirebaseApp.DefaultInstance == null)
 {
-    FirebaseApp.Create(new AppOptions
-    {
-        Credential = GoogleCredential.FromFile("firebase-config.json")
-    });
+    var firebaseJson = Environment.GetEnvironmentVariable("FIREBASE_CONFIG_JSON");
+    
+    if (!string.IsNullOrEmpty(firebaseJson)) {
+        // Render üzerinde çalışırken (Environment Variable'dan okur)
+        FirebaseApp.Create(new AppOptions { Credential = GoogleCredential.FromJson(firebaseJson) });
+    } else if (File.Exists("firebase-config.json")) {
+        // Localde çalışırken (Dosyadan okur)
+        FirebaseApp.Create(new AppOptions { Credential = GoogleCredential.FromFile("firebase-config.json") });
+    }
 }
 
-// 🔹 Firestore DI (TEK KERE OLUŞUR)
+// 🔹 Firestore DI
 builder.Services.AddSingleton(provider =>
 {
-    var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "firebase-config.json");
+    var firebaseJson = Environment.GetEnvironmentVariable("FIREBASE_CONFIG_JSON");
+    GoogleCredential credential;
 
-    var credential = GoogleCredential
-        .FromFile(path)
-        .CreateScoped("https://www.googleapis.com/auth/datastore");
+    if (!string.IsNullOrEmpty(firebaseJson)) {
+        credential = GoogleCredential.FromJson(firebaseJson);
+    } else {
+        credential = GoogleCredential.FromFile("firebase-config.json");
+    }
 
-    var client = new FirestoreClientBuilder
-    {
-        ChannelCredentials = credential.ToChannelCredentials()
-    }.Build();
-
+    credential = credential.CreateScoped("https://www.googleapis.com/auth/datastore");
+    var client = new FirestoreClientBuilder { ChannelCredentials = credential.ToChannelCredentials() }.Build();
     return FirestoreDb.Create(projectId, client);
 });
 
 // 🔹 CORS
+// builder.Services.AddCors(options =>
+// {
+//     options.AddPolicy("AllowReact",
+//         policy => policy
+//             .WithOrigins("http://localhost:5173")
+//             .AllowAnyMethod()
+//             .AllowAnyHeader());
+// });
+var allowedOrigins = builder.Configuration
+    .GetSection("AllowedOrigins")
+    .Get<string[]>() ?? Array.Empty<string>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReact",
         policy => policy
-            .WithOrigins("http://localhost:5173")
+            .WithOrigins(allowedOrigins)
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
