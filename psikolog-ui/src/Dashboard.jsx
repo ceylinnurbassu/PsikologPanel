@@ -1,4 +1,5 @@
 
+
 // import { useEffect, useState, useRef } from 'react';
 // import api from './api/axios';
 // import AppFrame from './components/AppFrame';
@@ -72,36 +73,39 @@
 
 //   const COLORS = ['#2D5A56', '#5E8B87', '#92B4B1', '#C5D6D4', '#E1E9E8'];
 
-//   // Duygu Analizi Grafiği İçin Özel Yüzdelik Etiketi
-//   const renderCustomizedLabel = ({ name, value }) => {
-//     const percent = ((value / totalReports) * 100).toFixed(0);
-//     return `${name}:  (${percent}%)`;
+//   // Tooltip için Yüzdelik Oran Formatlayıcı
+//   const formatTooltipValue = (value) => {
+//     const percent = ((value / totalReports) * 100).toFixed(1);
+//     return `${value} Rapor (%${percent})`;
 //   };
 
 //   return (
 //     <div className="w-full space-y-8 mb-12">
 //       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-//         <div className="xl:col-span-1 bg-white p-8 rounded-lg shadow-sm border border-gray-100 flex flex-col justify-center">
-//           <h3 className="text-xl font-medium mb-6 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4">Duygu Analizi</h3>
-//           <div style={{ width: '100%', height: 300 }}>
+//         {/* DUYGU ANALİZİ GRAFİĞİ - GENİŞLETİLDİ VE TEMİZLENDİ */}
+//         <div className="xl:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex flex-col justify-center overflow-hidden">
+//           <h3 className="text-xl font-medium mb-4 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4">Duygu Analizi</h3>
+//           <div style={{ width: '100%', height: 320 }}>
 //             <ResponsiveContainer>
 //               <PieChart>
 //                 <Pie 
 //                   data={pieData} 
-//                   innerRadius={70} 
-//                   outerRadius={95} 
+//                   innerRadius={65} 
+//                   outerRadius={90} 
 //                   paddingAngle={5} 
 //                   dataKey="value"
-//                   label={renderCustomizedLabel} // Yüzdelik oran etiketi eklendi
+//                   label={({ name }) => name} // Sadece isim görünüyor, sayılar temizlendi
+//                   labelLine={true}
 //                 >
 //                   {pieData.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]} />)}
 //                 </Pie>
-//                 <Tooltip />
-//                 <Legend verticalAlign="bottom" wrapperStyle={{paddingTop: '20px'}} />
+//                 <Tooltip formatter={formatTooltipValue} /> {/* İmleç gelince yüzdelik görünür */}
+//                 <Legend verticalAlign="bottom" wrapperStyle={{paddingTop: '10px'}} />
 //               </PieChart>
 //             </ResponsiveContainer>
 //           </div>
 //         </div>
+        
 //         <div className="xl:col-span-2 bg-white p-8 rounded-lg shadow-sm border border-gray-100">
 //           <h3 className="text-xl font-medium mb-6 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4">Semptom Trend Takibi</h3>
 //           <div style={{ width: '100%', height: 300 }}>
@@ -141,7 +145,7 @@
 //                 <Pie data={timePieData} innerRadius={0} outerRadius={90} dataKey="value" labelLine={false} label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}>
 //                   {timePieData.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]} />)}
 //                 </Pie>
-//                 <Tooltip />
+//                 <Tooltip formatter={formatTooltipValue} />
 //               </PieChart>
 //             </ResponsiveContainer>
 //           </div>
@@ -174,7 +178,6 @@
 //     return () => document.removeEventListener("mousedown", handleClickOutside);
 //   }, []);
 
-//   // Filtrelenmiş ve Tarihe Göre Sıralanmış Veri (En Yeni En Üstte)
 //   const filteredSurveys = surveys
 //     .filter(survey => {
 //       const selectedIstekMapped = selectedFilters.istek.split(' ')[0];
@@ -189,7 +192,7 @@
 //         matchesParametre
 //       );
 //     })
-//     .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)); // Tarih sıralaması eklendi
+//     .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
 
 //   useEffect(() => {
 //     const fetchSurveys = async () => {
@@ -346,7 +349,6 @@ const filterOptions = {
 const AnalysisCharts = ({ data }) => {
   const totalReports = data.length;
 
-  // 1. Grafik: Duygu Durum Analizi (Pie)
   const emotionCounts = data.reduce((acc, curr) => {
     const emotion = curr.answers?.["0"] || "Belirtilmedi";
     acc[emotion] = (acc[emotion] || 0) + 1;
@@ -357,7 +359,6 @@ const AnalysisCharts = ({ data }) => {
     name, value: emotionCounts[name]
   }));
 
-  // 2. Grafik: Semptom Trend Takibi (Area)
   const trendData = [...data]
     .sort((a, b) => (a.createdAt?.seconds || 0) - (b.createdAt?.seconds || 0))
     .map(survey => ({
@@ -367,7 +368,6 @@ const AnalysisCharts = ({ data }) => {
       istek: Number(survey.answers?.["1"]) || 0 
     }));
 
-  // 3. Grafik: Madde Bazlı Ortalama İstek Şiddeti (Bar)
   const substanceAnalysis = data.reduce((acc, curr) => {
     const substances = Array.isArray(curr.answers?.["3"]) ? curr.answers["3"] : [curr.answers?.["3"]];
     const severity = Number(curr.answers?.["1"]) || 0;
@@ -387,7 +387,6 @@ const AnalysisCharts = ({ data }) => {
     ortalamaIstek: (item.totalSeverity / item.count).toFixed(1)
   }));
 
-  // 4. Grafik: Son Kullanım Zamanı Dağılımı (Pie - Donut)
   const timeCounts = data.reduce((acc, curr) => {
     const time = curr.answers?.["2"] || "Belirtilmedi";
     acc[time] = (acc[time] || 0) + 1;
@@ -400,16 +399,14 @@ const AnalysisCharts = ({ data }) => {
 
   const COLORS = ['#2D5A56', '#5E8B87', '#92B4B1', '#C5D6D4', '#E1E9E8'];
 
-  // Tooltip için Yüzdelik Oran Formatlayıcı
   const formatTooltipValue = (value) => {
-    const percent = ((value / totalReports) * 100).toFixed(1);
+    const percent = totalReports > 0 ? ((value / totalReports) * 100).toFixed(1) : 0;
     return `${value} Rapor (%${percent})`;
   };
 
   return (
     <div className="w-full space-y-8 mb-12">
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        {/* DUYGU ANALİZİ GRAFİĞİ - GENİŞLETİLDİ VE TEMİZLENDİ */}
         <div className="xl:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex flex-col justify-center overflow-hidden">
           <h3 className="text-xl font-medium mb-4 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4">Duygu Analizi</h3>
           <div style={{ width: '100%', height: 320 }}>
@@ -421,12 +418,12 @@ const AnalysisCharts = ({ data }) => {
                   outerRadius={90} 
                   paddingAngle={5} 
                   dataKey="value"
-                  label={({ name }) => name} // Sadece isim görünüyor, sayılar temizlendi
+                  label={({ name }) => name}
                   labelLine={true}
                 >
                   {pieData.map((entry, index) => <Cell key={index} fill={COLORS[index % COLORS.length]} />)}
                 </Pie>
-                <Tooltip formatter={formatTooltipValue} /> {/* İmleç gelince yüzdelik görünür */}
+                <Tooltip formatter={formatTooltipValue} />
                 <Legend verticalAlign="bottom" wrapperStyle={{paddingTop: '10px'}} />
               </PieChart>
             </ResponsiveContainer>
@@ -487,6 +484,10 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [isParamDropdownOpen, setIsParamDropdownOpen] = useState(false);
   const paramDropdownRef = useRef(null);
+
+  // Pagination Stateleri
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   
   const [selectedFilters, setSelectedFilters] = useState({
     duygu: '',
@@ -505,6 +506,7 @@ const Dashboard = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Filtrelenmiş ve Sıralanmış Veri
   const filteredSurveys = surveys
     .filter(survey => {
       const selectedIstekMapped = selectedFilters.istek.split(' ')[0];
@@ -520,6 +522,17 @@ const Dashboard = () => {
       );
     })
     .sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+
+  // Pagination Mantığı: Mevcut sayfadaki verileri dilimle
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredSurveys.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredSurveys.length / itemsPerPage);
+
+  // Filtre değiştiğinde 1. sayfaya dön
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedFilters]);
 
   useEffect(() => {
     const fetchSurveys = async () => {
@@ -627,11 +640,12 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
-              {filteredSurveys.map((survey) => (
+              {/* filteredSurveys yerine currentItems map ediliyor */}
+              {currentItems.map((survey) => (
                 <tr key={survey.id} className="hover:bg-gray-50/40 transition-colors group text-left">
                   <td className="px-6 py-8 text-xs font-mono text-gray-400">#{survey.id?.substring(0, 10).toUpperCase()}</td>
                   <td className="px-6 py-8 font-medium text-gray-700">{survey.answers?.["0"]}</td>
-                  <td className="px-6 py-8">
+                  <td className="px-6 py-8 text-left">
                     <span className={`px-5 py-2 rounded-full text-[10px] font-bold tracking-tighter ${survey.answers?.["1"] >= 4 ? 'bg-red-50 text-red-600' : 'bg-[#E1E9E8] text-[#2D5A56]'}`}>
                       SEVİYE {survey.answers?.["1"]}
                     </span>
@@ -650,6 +664,41 @@ const Dashboard = () => {
             </tbody>
           </table>
         </div>
+
+        {/* SAYFALAMA KONTROLLERİ */}
+        {totalPages > 1 && (
+          <div className="p-8 bg-gray-50/30 border-t border-gray-100 flex justify-center items-center gap-4">
+            <button 
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(prev => prev - 1)}
+              className="px-4 py-2 text-xs font-bold text-[#2D5A56] uppercase tracking-widest disabled:opacity-30"
+            >
+              Geri
+            </button>
+            <div className="flex gap-2">
+              {[...Array(totalPages)].map((_, i) => (
+                <button
+                  key={i + 1}
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`w-8 h-8 rounded-full text-[10px] font-bold transition-all ${
+                    currentPage === i + 1 
+                      ? 'bg-[#2D5A56] text-white shadow-md' 
+                      : 'bg-white text-gray-400 hover:bg-gray-100'
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              ))}
+            </div>
+            <button 
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(prev => prev + 1)}
+              className="px-4 py-2 text-xs font-bold text-[#2D5A56] uppercase tracking-widest disabled:opacity-30"
+            >
+              İleri
+            </button>
+          </div>
+        )}
       </div>
     </AppFrame>
   );
