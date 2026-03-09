@@ -210,7 +210,8 @@ const Dashboard = () => {
       try {
         // LOCALDE CALISIR: const response = await axios.get("http://localhost:5214/api/Analysis/surveys");
         const API_URL = import.meta.env.VITE_API_URL; 
-        const response = await axios.get(`${API_URL}/api/Analysis/surveys`);
+        //const response = await axios.get(`${API_URL}/api/Analysis/surveys`);
+        const response = await api.get('/api/Analysis/surveys');
         setSurveys(response.data);
       } catch (error) {
         console.error("Veri çekme hatası:", error);
