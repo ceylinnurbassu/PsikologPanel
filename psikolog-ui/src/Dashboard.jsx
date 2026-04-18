@@ -4,22 +4,50 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Legend,
   BarChart, Bar
 } from 'recharts';
-import { 
-  LayoutDashboard, 
-  Users, 
-  Activity, 
-  ClipboardCheck, 
-  RefreshCw, 
-  User, 
-  ArrowLeft 
-} from 'lucide-react';
 
-// --- ÖNİZLEME İÇİN GEREKLİ YEREL YAPILAR (HATA ALMAMAK İÇİN DAHİL EDİLDİ) ---
+// --- SON DÜZENLEME: LUCIDE-REACT HATASINI GİDERMEK İÇİN İKONLARIN INLINE SVG OLARAK TANIMLANMASI ---
+const Icons = {
+  LayoutDashboard: ({ size = 24, className = "" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <rect width="7" height="9" x="3" y="3" rx="1" /><rect width="7" height="5" x="14" y="3" rx="1" /><rect width="7" height="9" x="14" y="12" rx="1" /><rect width="7" height="5" x="3" y="16" rx="1" />
+    </svg>
+  ),
+  Users: ({ size = 24, className = "" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  ),
+  Activity: ({ size = 24, className = "" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+    </svg>
+  ),
+  ClipboardCheck: ({ size = 24, className = "" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <rect width="8" height="4" x="8" y="2" rx="1" /><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><path d="m9 14 2 2 4-4" />
+    </svg>
+  ),
+  RefreshCw: ({ size = 24, className = "" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M3 21v-5h5" />
+    </svg>
+  ),
+  User: ({ size = 24, className = "" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" />
+    </svg>
+  ),
+  BarChart3: ({ size = 24, className = "" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M3 3v18h18" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" />
+    </svg>
+  )
+};
 
-// Mock API servisi (Gerçek projenizde './api/axios' kullanabilirsiniz)
+// --- ÖNİZLEME İÇİN GEREKLİ YEREL YAPILAR ---
+
 const api = {
   get: async (url) => {
-    // Simüle edilmiş backend verisi
     return {
       data: [
         {
@@ -45,28 +73,27 @@ const api = {
   }
 };
 
-// Yerel AppFrame Bileşeni (Görsel çerçeve için)
 const AppFrame = ({ children }) => (
   <div className="min-h-screen bg-slate-50 flex">
     <aside className="w-64 bg-[#2D5A56] text-white fixed h-full p-6 hidden lg:flex flex-col shadow-2xl">
       <div className="mb-10 flex items-center gap-3">
         <div className="bg-white/10 p-2 rounded-xl">
-          <Activity size={24} className="text-white" />
+          <Icons.Activity size={24} className="text-white" />
         </div>
-        <h1 className="text-xl font-bold tracking-tighter">PSİKOLOG PANEL</h1>
+        <h1 className="text-xl font-bold tracking-tighter text-left uppercase">PSİKOLOG PANEL</h1>
       </div>
       <nav className="flex-1 space-y-2">
-        <button className="w-full flex items-center gap-3 px-4 py-3 bg-white/10 rounded-xl font-bold text-sm transition-all">
-          <LayoutDashboard size={18} /> Dashboard
+        <button className="w-full flex items-center gap-3 px-4 py-3 bg-white/10 rounded-xl font-bold text-sm transition-all text-left">
+          <Icons.LayoutDashboard size={18} /> Dashboard
         </button>
-        <button className="w-full flex items-center gap-3 px-4 py-3 text-white/60 hover:text-white rounded-xl font-bold text-sm transition-all">
-          <Users size={18} /> Vaka Listesi
+        <button className="w-full flex items-center gap-3 px-4 py-3 text-white/60 hover:text-white rounded-xl font-bold text-sm transition-all text-left">
+          <Icons.Users size={18} /> Vaka Listesi
         </button>
       </nav>
       <div className="pt-6 border-t border-white/10">
         <div className="flex items-center gap-3 bg-black/20 p-4 rounded-2xl">
           <div className="w-8 h-8 bg-[#5E8B87] rounded-full flex items-center justify-center font-bold text-xs">U</div>
-          <div className="overflow-hidden">
+          <div className="overflow-hidden text-left">
             <p className="text-xs font-bold truncate">Uzman Kullanıcı</p>
             <p className="text-[10px] opacity-50 uppercase font-black">Klinik Psikolog</p>
           </div>
@@ -107,7 +134,7 @@ const UserHistoryModal = ({ isOpen, onClose, userId, allSurveys }) => {
         
         {/* Modal Header */}
         <div className="p-8 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-          <div>
+          <div className="text-left">
             <h2 className="text-2xl font-bold text-[#2D5A56] italic">Bireysel Gelişim Analizi</h2>
             <p className="text-[10px] font-mono text-gray-400 mt-1 uppercase tracking-widest font-bold">VAKA_ID: {userId}</p>
           </div>
@@ -124,7 +151,7 @@ const UserHistoryModal = ({ isOpen, onClose, userId, allSurveys }) => {
           
           {/* Trend Grafiği */}
           <div className="bg-[#f8fafc] p-6 rounded-3xl border border-gray-100 shadow-inner">
-            <h3 className="text-[10px] font-black text-[#2D5A56] mb-6 uppercase tracking-[0.2em] opacity-50">Zaman Çizelgesi (İstek Şiddeti)</h3>
+            <h3 className="text-[10px] font-black text-[#2D5A56] mb-6 uppercase tracking-[0.2em] opacity-50 text-left">Zaman Çizelgesi (İstek Şiddeti)</h3>
             <div style={{ width: '100%', height: 200 }}>
               <ResponsiveContainer>
                 <AreaChart data={chartData}>
@@ -146,27 +173,26 @@ const UserHistoryModal = ({ isOpen, onClose, userId, allSurveys }) => {
 
           {/* Kayıt Listesi */}
           <div className="space-y-4 text-left">
-            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Klinik Kayıt Arşivi ({userHistory.length})</h3>
-            <div className="grid gap-4">
+            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-left">Klinik Kayıt Arşivi ({userHistory.length})</h3>
+            <div className="grid gap-4 text-left">
               {userHistory.slice().reverse().map((item, idx) => (
                 <div key={idx} className="bg-white border border-gray-100 p-6 rounded-2xl flex flex-wrap items-center justify-between hover:border-[#2D5A56]/20 transition-all shadow-sm">
                   <div className="flex flex-wrap items-center gap-10">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col text-left">
                       <span className="text-[9px] font-black text-gray-300 uppercase tracking-tighter">Rapor Tarihi</span>
                       <span className="text-xs font-bold text-gray-600">
                         {item.createdAt?.seconds ? new Date(item.createdAt.seconds * 1000).toLocaleString('tr-TR') : '-'}
                       </span>
                     </div>
                     <div className="w-px h-10 bg-gray-100 hidden sm:block"></div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col text-left">
                       <span className="text-[9px] font-black text-gray-300 uppercase tracking-tighter">Baskın Duygu</span>
                       <span className="text-xs font-black text-[#2D5A56]">{item.answers?.["0"] || "N/A"}</span>
                     </div>
 
                     <div className="w-px h-10 bg-gray-100 hidden sm:block"></div>
 
-                    {/* SON DÜZENLEME: Pop-up içine "Son Kullanılan Madde(ler)" alanı eklendi */}
-                    <div className="flex flex-col">
+                    <div className="flex flex-col text-left">
                       <span className="text-[9px] font-black text-gray-300 uppercase tracking-tighter">Son Kullanılan Madde(ler)</span>
                       <span className="text-xs font-bold text-gray-500 italic">
                         {Array.isArray(item.answers?.["3"]) ? item.answers["3"].join(", ") : item.answers?.["3"] || "Hiçbiri"}
@@ -256,7 +282,7 @@ const AnalysisCharts = ({ data }) => {
     <div className="w-full space-y-8 mb-12 text-left">
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="xl:col-span-1 bg-white p-6 rounded-lg shadow-sm border border-gray-100 flex flex-col justify-center overflow-hidden">
-          <h3 className="text-xl font-medium mb-4 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4">Duygu Analizi</h3>
+          <h3 className="text-xl font-medium mb-4 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4 text-left">Duygu Analizi</h3>
           <div style={{ width: '100%', height: 320 }}>
             <ResponsiveContainer>
               <PieChart>
@@ -279,7 +305,7 @@ const AnalysisCharts = ({ data }) => {
         </div>
         
         <div className="xl:col-span-2 bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-          <h3 className="text-xl font-medium mb-6 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4">Semptom Trend Takibi</h3>
+          <h3 className="text-xl font-medium mb-6 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4 text-left">Semptom Trend Takibi</h3>
           <div style={{ width: '100%', height: 300 }}>
             <ResponsiveContainer>
               <AreaChart data={trendData}>
@@ -296,7 +322,7 @@ const AnalysisCharts = ({ data }) => {
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
         <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-          <h3 className="text-xl font-medium mb-6 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4">Madde Bazlı İstek Şiddeti</h3>
+          <h3 className="text-xl font-medium mb-6 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4 text-left">Madde Bazlı İstek Şiddeti</h3>
           <div style={{ width: '100%', height: 300 }}>
             <ResponsiveContainer>
               <BarChart data={barData}>
@@ -310,7 +336,7 @@ const AnalysisCharts = ({ data }) => {
           </div>
         </div>
         <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100">
-          <h3 className="text-xl font-medium mb-6 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4">Son Kullanım Zamanı Dağılımı</h3>
+          <h3 className="text-xl font-medium mb-6 text-[#2D5A56] italic border-l-4 border-[#2D5A56] pl-4 text-left">Son Kullanım Zamanı Dağılımı</h3>
           <div style={{ width: '100%', height: 300 }}>
             <ResponsiveContainer>
               <PieChart>
@@ -394,16 +420,21 @@ const Dashboard = () => {
     fetchSurveys();
   }, []);
 
-  if (loading) return <div className="text-center py-20 italic font-mono text-[#2D5A56]">Analizler hazırlanıyor...</div>;
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center bg-white flex-col gap-6">
+      <div className="w-16 h-16 border-4 border-[#2D5A56] border-t-transparent rounded-full animate-spin"></div>
+      <p className="text-[#2D5A56] font-black italic tracking-[0.3em] uppercase animate-pulse">Analizler Hazırlanıyor</p>
+    </div>
+  );
 
   return (
     <AppFrame>
       <header className="mb-12 border-b border-gray-200 pb-8 text-left">
-        <h1 className="text-5xl font-light text-[#2D5A56] mb-4 italic tracking-tight uppercase">Vaka Analizleri</h1>
+        <h1 className="text-5xl font-light text-[#2D5A56] mb-4 italic tracking-tight uppercase text-left">Vaka Analizleri</h1>
         <p className="text-xl text-gray-500 max-w-5xl font-light leading-relaxed text-left">Sisteme kayıtlı anonim vakaların madde kullanım döngüleri ve psikometrik raporları.</p>
       </header>
 
-      {/* SON DÜZENLEME: MODAL BİLEŞENİ ÇAĞRISI */}
+      {/* MODAL BİLEŞENİ ÇAĞRISI */}
       <UserHistoryModal 
         isOpen={selectedUser.isOpen} 
         onClose={() => setSelectedUser({ isOpen: false, id: null })}
